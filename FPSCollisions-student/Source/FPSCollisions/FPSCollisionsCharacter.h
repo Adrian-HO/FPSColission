@@ -4,9 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "CollisionSphereComponent.h"
 #include "FPSCollisionsCharacter.generated.h"
 
+
 class UInputComponent;
+
+//Enum used for what type of trace we will perform
+
+UENUM(BlueprintType)
+enum class ETestTraceType : uint8
+{
+	TTT_CollisionChannel 	UMETA(DisplayName = "Collision Channel"),
+	TTT_ObjectType 	UMETA(DisplayName = "Object Type"),
+	TTT_TraceType	UMETA(DisplayName = "Trace Type"),
+	TTT_ProfileName UMETA(DisplayName = "Profile Name")
+};
 
 UCLASS(config=Game)
 class AFPSCollisionsCharacter : public ACharacter
@@ -62,7 +75,18 @@ public:
 
 
 	//WEEK 3: ADD
-		
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CollisionTests)
+		ETestTraceType ETraceType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CollisionTests)
+		FTraceParams TraceCollisionParams;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CollisionTests)
+		FCollisonParams SphereCollisionParams;
+
+	//Called when a property is edited in the blueprint editor or in the Instance editor
+	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& e) override;
+
     virtual void Tick(float DeltaTime) override;
 
 
@@ -91,7 +115,36 @@ protected:
 	void LookUpAtRate(float Rate);
 	
 	//WEEK 3: ADD
-    
+	class UCollisionSphereComponent* CollisionSphere;
+
+	//Test Function to see if the Ray hits a Actor using the Collision Channel filter
+	bool GetPickableActor_LineTraceTestByChannel(ECollisionChannel CollisionChannel);
+	//Test Function to see if the Ray hits a Actor using the Object Type filter
+	bool GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery ObjectType);
+	//Test Function to see if the Ray hits a Actor using the Profile Name filter
+	bool GetPickableActor_LineTraceTestByProfile(FName ProfileName);
+
+	//Returns A Actor* if the Ray hits it using the Collision Channel filter
+	AActor* GetPickableActor_LineTraceSingleByChannel(ECollisionChannel CollisionChannel);
+	//Returns A Actor* if the Ray hits it using the Object Type filter
+	AActor* GetPickableActor_LineTraceSingleByObjectType(EObjectTypeQuery ObjectType);
+	//Returns A Actor* if the Ray hits it using the Trace Type filter
+	AActor* GetPickableActor_LineTraceSingleByTraceType(ETraceTypeQuery TraceType);
+	//Returns A Actor* if the Ray hits it using the Profile Name filter
+	AActor* GetPickableActor_LineTraceSingleByProfile(FName ProfileName);
+
+	//Returns a Array of FHitResult if the Ray hits a bunch of Actors using the  Collision Channel Filter
+	TArray<FHitResult> GetPickableActor_LineTraceMultiByChannel(ECollisionChannel CollisionChannel);
+	//Returns a Array of FHitResult if the Ray hits a bunch of Actors using the  Object Type Filter
+	TArray<FHitResult> GetPickableActor_LineTraceMultiByObjectType(EObjectTypeQuery ObjectType);
+	//Returns a Array of FHitResult if the Ray hits a bunch of Actors using the  Profile Name Filter
+	TArray<FHitResult> GetPickableActor_LineTraceMultiByProfile(FName ProfileName);
+
+	//Sets up the Ray for Ray Casting
+	void SetupRay(FVector& StartTrace, FVector& Direction, FVector& EndTrace);
+
+	UFUNCTION()
+		void EnableCollisionSphere(bool enable);
 
 protected:
 	// APawn interface

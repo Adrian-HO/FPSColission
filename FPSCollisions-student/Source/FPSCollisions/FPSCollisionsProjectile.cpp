@@ -4,6 +4,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
+#include "GameFramework/DamageType.h"
 
 
 #define SURFACE_HEAD		SurfaceType1

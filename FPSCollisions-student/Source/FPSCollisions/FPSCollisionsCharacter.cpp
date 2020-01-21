@@ -7,10 +7,12 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/InputSettings.h"
+#include "CollisionSphereComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
+
 
 #include "DrawDebugHelpers.h" ////
 
@@ -62,7 +64,8 @@ AFPSCollisionsCharacter::AFPSCollisionsCharacter()
 	// are set in the derived blueprint asset named MyCharacter to avoid direct content references in C++.
 
 	//Week 3 ADD:
-
+	CollisionSphere = CreateDefaultSubobject<UCollisionSphereComponent>("Collision Sphere");
+	CollisionSphere->SetupAttachment(RootComponent);
 }
 
 
@@ -77,7 +80,7 @@ void AFPSCollisionsCharacter::BeginPlay()
 
 
 	//Week 3 ADD:
-    
+	CollisionSphere->SetNewCollisionParams(SphereCollisionParams);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -179,15 +182,395 @@ void AFPSCollisionsCharacter::LookUpAtRate(float Rate)
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
+bool AFPSCollisionsCharacter::GetPickableActor_LineTraceTestByChannel(ECollisionChannel CollisionChannel)
+{
+	bool hit = false;
+	if (Controller && Controller->IsLocalPlayerController()) // we check the controller becouse we dont want bots to grab the use object and we need a controller for the Getplayerviewpoint function
+	{
+		FVector StartTrace;
+		FVector Direction;
+		FVector EndTrace;
+		//Call SetupRay() to set the Start end End Trace
+		SetupRay(StartTrace, Direction, EndTrace);
+		FCollisionQueryParams TraceParams;
+		//Ignore this Actor
+		TraceParams.AddIgnoredActor(this);
+		TraceParams.bTraceComplex = true;
+		TraceParams.bReturnPhysicalMaterial = true;
+
+		FHitResult Hit(ForceInit);
+		UWorld* World = GetWorld();
+		hit = World->LineTraceTestByChannel(StartTrace, EndTrace, CollisionChannel, TraceParams); // simple trace function
+		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, true, 1, 0, 1.f);
+		return hit;
+	}
+
+	return hit;
+}
+
+bool AFPSCollisionsCharacter::GetPickableActor_LineTraceTestByObjectType(EObjectTypeQuery ObjectType)
+{
+	bool hit = false;
+	if (Controller && Controller->IsLocalPlayerController()) // we check the controller becouse we dont want bots to grab the use object and we need a controller for the Getplayerviewpoint function
+	{
+		FVector StartTrace;
+		FVector Direction;
+		FVector EndTrace;
+
+		SetupRay(StartTrace, Direction, EndTrace);
+		FCollisionQueryParams TraceParams;
+		TraceParams.AddIgnoredActor(this);
+		TraceParams.bTraceComplex = true;
+		TraceParams.bReturnPhysicalMaterial = true;
+
+		//Convert the EObjectTypeQuery to a byte
+		TEnumAsByte<EObjectTypeQuery> ObjectToTrace = ObjectType;
+		//Create a TArray of type TEnumAsByte<EObjectTypeQuery>
+		TArray<TEnumAsByte<EObjectTypeQuery> > ObjectsToTraceAsByte;
+		//Add the ObjectToTrace into the TArray, we can trace (look) for more than 1 ObjectType
+		ObjectsToTraceAsByte.Add(ObjectToTrace);
+
+		FHitResult Hit(ForceInit);
+		UWorld* World = GetWorld();
+		hit = World->LineTraceTestByObjectType(StartTrace, EndTrace, FCollisionObjectQueryParams(ObjectsToTraceAsByte), TraceParams); // simple trace function
+		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, true, 1, 0, 1.f);
+		return hit;
+	}
+	return hit;
+}
+
+bool AFPSCollisionsCharacter::GetPickableActor_LineTraceTestByProfile(FName ProfileName)
+{
+	bool hit = false;
+	if (Controller && Controller->IsLocalPlayerController()) // we check the controller becouse we dont want bots to grab the use object and we need a controller for the Getplayerviewpoint function
+	{
+		FVector StartTrace;
+		FVector Direction;
+		FVector EndTrace;
+
+		SetupRay(StartTrace, Direction, EndTrace);
+		FCollisionQueryParams TraceParams;
+		TraceParams.AddIgnoredActor(this);
+		TraceParams.bTraceComplex = true;
+		TraceParams.bReturnPhysicalMaterial = true;
+
+		FHitResult Hit(ForceInit);
+		UWorld* World = GetWorld();
+		hit = World->LineTraceTestByProfile(StartTrace, EndTrace, ProfileName, TraceParams); // simple trace function
+		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, true, 1, 0, 1.f);
+		return hit;
+	}
+
+	return hit;
+}
+
+AActor * AFPSCollisionsCharacter::GetPickableActor_LineTraceSingleByChannel(ECollisionChannel CollisionChannel)
+{
+	if (Controller && Controller->IsLocalPlayerController()) // we check the controller because we don't want bots to grab the use object and we need a controller for the GetPlayerViewpoint function
+	{
+
+		FVector StartTrace;
+		FVector Direction;
+		FVector EndTrace;
+
+		SetupRay(StartTrace, Direction, EndTrace);
+
+		FCollisionQueryParams TraceParams;
+		TraceParams.AddIgnoredActor(this);
+		TraceParams.bTraceComplex = true;
+		TraceParams.bReturnPhysicalMaterial = true;
+
+		FHitResult Hit(ForceInit);
+		UWorld* World = GetWorld();
+		World->LineTraceSingleByChannel(Hit, StartTrace, EndTrace, CollisionChannel, TraceParams); // simple trace function  ECC_PhysicsBody
+		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, true, 1, 0, 1.f);
+		return Hit.GetActor();
+	}
+
+	return nullptr;
+}
+
+AActor * AFPSCollisionsCharacter::GetPickableActor_LineTraceSingleByObjectType(EObjectTypeQuery ObjectType)
+{
+	if (Controller && Controller->IsLocalPlayerController()) // we check the controller because we dont want bots to grab the use object and we need a controller for the Getplayerviewpoint function
+	{
+		FVector StartTrace;
+		FVector Direction;
+		FVector EndTrace;
+
+
+		SetupRay(StartTrace, Direction, EndTrace);
+
+		FCollisionQueryParams TraceParams;
+		TraceParams.AddIgnoredActor(this);
+		TraceParams.bTraceComplex = true;
+		TraceParams.bReturnPhysicalMaterial = true;
+
+		FHitResult Hit(ForceInit);
+		UWorld* World = GetWorld(); //FCollisionObjectQueryParams(EObjectTypeQuery::ObjectTypeQuery1)
+		//need to convert the enum to a Byte
+		TEnumAsByte<EObjectTypeQuery> ObjectToTrace = ObjectType;
+		TArray<TEnumAsByte<EObjectTypeQuery> > ObjectsToTraceAsByte;
+		ObjectsToTraceAsByte.Add(ObjectToTrace);
+
+		World->LineTraceSingleByObjectType(Hit, StartTrace, EndTrace, FCollisionObjectQueryParams(ObjectsToTraceAsByte), TraceParams); // simple trace function  ObjectTypeQuery1
+		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, false, -1.0f, 0, 1.f);
+		return Hit.GetActor();
+	}
+
+	return nullptr;
+}
+
+AActor * AFPSCollisionsCharacter::GetPickableActor_LineTraceSingleByTraceType(ETraceTypeQuery TraceType)
+{
+	if (Controller && Controller->IsLocalPlayerController()) // we check the controller because we dont want bots to grab the use object and we need a controller for the Getplayerviewpoint function
+	{
+		FVector StartTrace;
+		FVector Direction;
+		FVector EndTrace;
+
+
+		SetupRay(StartTrace, Direction, EndTrace);
+
+		FCollisionQueryParams TraceParams;
+		TraceParams.AddIgnoredActor(this);
+		TraceParams.bTraceComplex = true;
+		TraceParams.bReturnPhysicalMaterial = true;
+
+		FHitResult Hit(ForceInit);
+		UWorld* World = GetWorld();
+
+		//need to convert the enum to a Byte
+		TEnumAsByte<ETraceTypeQuery> ObjectToTrace = TraceType;
+		TArray<TEnumAsByte<ETraceTypeQuery> > ObjectsToTraceAsByte;
+		ObjectsToTraceAsByte.Add(ObjectToTrace);
+
+		World->LineTraceSingleByObjectType(Hit, StartTrace, EndTrace, FCollisionObjectQueryParams(TraceType), TraceParams); // simple trace function  ObjectTypeQuery1
+		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, false, -1.0f, 0, 1.f);
+		return Hit.GetActor();
+	}
+
+	return nullptr;
+}
+
+AActor * AFPSCollisionsCharacter::GetPickableActor_LineTraceSingleByProfile(FName ProfileName)
+{
+	if (Controller && Controller->IsLocalPlayerController()) // we check the controller because we dont want bots to grab the use object and we need a controller for the Getplayerviewpoint function
+	{
+		FVector StartTrace;
+		FVector Direction;
+		FVector EndTrace;
+
+		SetupRay(StartTrace, Direction, EndTrace);
+		FCollisionQueryParams TraceParams;
+		TraceParams.AddIgnoredActor(this);
+		TraceParams.bTraceComplex = true;
+		TraceParams.bReturnPhysicalMaterial = true;
+
+		FHitResult Hit(ForceInit);
+		UWorld* World = GetWorld();
+		World->LineTraceSingleByProfile(Hit, StartTrace, EndTrace, ProfileName, TraceParams); // simple trace function
+		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, true, 1, 0, 1.f);
+		return Hit.GetActor();
+	}
+
+	return nullptr;
+}
+
+TArray<FHitResult> AFPSCollisionsCharacter::GetPickableActor_LineTraceMultiByChannel(ECollisionChannel CollisionChannel)
+{
+	TArray<FHitResult> OutHits;
+	if (Controller && Controller->IsLocalPlayerController()) // we check the controller because we dont want bots to grab the use object and we need a controller for the Getplayerviewpoint function
+	{
+		FVector StartTrace;
+		FVector Direction;
+		FVector EndTrace;
+
+		SetupRay(StartTrace, Direction, EndTrace);
+		FCollisionQueryParams TraceParams;
+		TraceParams.AddIgnoredActor(this);
+		TraceParams.bTraceComplex = true;
+		TraceParams.bReturnPhysicalMaterial = true;
+
+		UWorld* World = GetWorld();
+		World->LineTraceMultiByChannel(OutHits, StartTrace, EndTrace, CollisionChannel, TraceParams); // simple trace function 
+		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, true, 1, 0, 1.f);
+
+	}
+
+	return OutHits;
+}
+
+TArray<FHitResult> AFPSCollisionsCharacter::GetPickableActor_LineTraceMultiByObjectType(EObjectTypeQuery ObjectType)
+{
+	TArray<FHitResult> OutHits;
+	if (Controller && Controller->IsLocalPlayerController()) // we check the controller because we dont want bots to grab the use object and we need a controller for the Getplayerviewpoint function
+	{
+		FVector StartTrace;
+		FVector Direction;
+		FVector EndTrace;
+
+		SetupRay(StartTrace, Direction, EndTrace);
+		FCollisionQueryParams TraceParams;
+		TraceParams.AddIgnoredActor(this);
+		TraceParams.bTraceComplex = true;
+		TraceParams.bReturnPhysicalMaterial = true;
+
+		TEnumAsByte<EObjectTypeQuery> ObjectToTrace = ObjectType;
+		TArray<TEnumAsByte<EObjectTypeQuery> > ObjectsToTraceAsByte;
+		ObjectsToTraceAsByte.Add(ObjectToTrace);
+
+		UWorld* World = GetWorld();
+		World->LineTraceMultiByObjectType(OutHits, StartTrace, EndTrace, FCollisionObjectQueryParams(ObjectsToTraceAsByte), TraceParams); // simple trace function ObjectTypeQuery1
+		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, true, 1, 0, 1.f);
+
+	}
+
+	return OutHits;
+}
+
+TArray<FHitResult> AFPSCollisionsCharacter::GetPickableActor_LineTraceMultiByProfile(FName ProfileName)
+{
+	TArray<FHitResult> OutHits;
+	if (Controller && Controller->IsLocalPlayerController()) // we check the controller because we dont want bots to grab the use object and we need a controller for the Getplayerviewpoint function
+	{
+		FVector StartTrace;
+		FVector Direction;
+		FVector EndTrace;
+
+		SetupRay(StartTrace, Direction, EndTrace);
+		FCollisionQueryParams TraceParams;
+		TraceParams.AddIgnoredActor(this);
+		TraceParams.bTraceComplex = true;
+		TraceParams.bReturnPhysicalMaterial = true;
+
+		UWorld* World = GetWorld();
+		World->LineTraceMultiByProfile(OutHits, StartTrace, EndTrace, ProfileName, TraceParams); // simple trace function "Pawn"
+		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, true, 1, 0, 1.f);
+		// return OutHits;
+	}
+
+	return OutHits;
+}
+
+void AFPSCollisionsCharacter::SetupRay(FVector & StartTrace, FVector & Direction, FVector & EndTrace)
+{
+	FVector CamLoc;
+	FRotator CamRot;
+
+	Controller->GetPlayerViewPoint(CamLoc, CamRot); // Get the camera position and rotation
+	CamLoc = GetActorLocation();
+
+	StartTrace = CamLoc; // trace start is the camera location
+	Direction = CamRot.Vector();
+	EndTrace = StartTrace + Direction * 300; // and trace end is the camera location + an offset in the direction you are looking, the 300 is the distance at which it checks 
+}
+
+void AFPSCollisionsCharacter::EnableCollisionSphere(bool enable)
+{
+	if (!enable)
+	{
+		CollisionSphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		CollisionSphere->SetHiddenInGame(true);
+	}
+	else
+	{
+		CollisionSphere->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		CollisionSphere->SetHiddenInGame(false);
+	}
+}
+
 //Week 3 ADD:
 
+
+void AFPSCollisionsCharacter::PostEditChangeProperty(FPropertyChangedEvent & e)
+{
+	FName PropertyName = (e.Property != NULL) ? e.Property->GetFName() : NAME_None;
+
+	if (PropertyName == GET_MEMBER_NAME_CHECKED(FCollisonParams, CollisionEnabled))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - SphereCollisionParams.CollisionEnabled ");
+
+	}
+
+	if (PropertyName == GET_MEMBER_NAME_CHECKED(FCollisonParams, CollisionResponseNew))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - SphereCollisionParams.CollisionResponseNew ");
+
+	}
+
+	if (PropertyName == GET_MEMBER_NAME_CHECKED(FCollisonParams, CollisionChannel))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - SphereCollisionParams.CollisionChannel ");
+
+	}
+
+	if (PropertyName == GET_MEMBER_NAME_CHECKED(FCollisonParams, ProfileName))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - SphereCollisionParams.ProfileName ");
+
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	if (PropertyName == GET_MEMBER_NAME_CHECKED(FTraceParams, CollisionChannel))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - FTraceParams.CollisionChannel ");
+	}
+
+	if (PropertyName == GET_MEMBER_NAME_CHECKED(FTraceParams, ObjectType))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - FTraceParams.ObjectType ");
+
+	}
+
+	if (PropertyName == GET_MEMBER_NAME_CHECKED(FTraceParams, TraceType))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - FTraceParams.TraceType ");
+
+	}
+
+	if (PropertyName == GET_MEMBER_NAME_CHECKED(FTraceParams, ProfileName))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - FTraceParams.ProfileName ");
+
+	}
+
+	CollisionSphere->SetNewCollisionParams(SphereCollisionParams);
+
+
+}
 
 void AFPSCollisionsCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
 	//Week 3 ADD:
-	
+	AActor * HitActor = nullptr;
+	switch (ETraceType)
+	{
+	case ETestTraceType::TTT_CollisionChannel:
+	{
+		HitActor = GetPickableActor_LineTraceSingleByChannel(TraceCollisionParams.CollisionChannel);
+		break;
+	}
+	case ETestTraceType::TTT_ObjectType:
+	{
+		HitActor = GetPickableActor_LineTraceSingleByObjectType(TraceCollisionParams.ObjectType);
+		break;
+	}
+	case ETestTraceType::TTT_TraceType:
+	{
+		HitActor = GetPickableActor_LineTraceSingleByTraceType(TraceCollisionParams.TraceType);
+		break;
+	}
+	case ETestTraceType::TTT_ProfileName:
+	{
+		HitActor = GetPickableActor_LineTraceSingleByProfile(TraceCollisionParams.ProfileName);
+		break;
+	}
+	}
+	if (HitActor)
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Hit - " + HitActor->GetActorLabel());
+	//ADD Two more switch statements to test the other two flavors of Trace functions
 
 }
 
