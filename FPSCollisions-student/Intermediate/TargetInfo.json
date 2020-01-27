@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "FPSCollisions",
+			"Path": "C:\\Users\\ho000086\\Desktop\\FPSColission\\FPSCollisions-student\\Source\\FPSCollisions.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "FPSCollisionsEditor",
+			"Path": "C:\\Users\\ho000086\\Desktop\\FPSColission\\FPSCollisions-student\\Source\\FPSCollisionsEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

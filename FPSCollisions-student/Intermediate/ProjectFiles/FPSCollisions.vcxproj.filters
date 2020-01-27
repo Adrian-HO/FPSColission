@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\FPSCollisions.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{CC09D137-4BFC-4EFF-8A1E-5486C293C4CA}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\FPSCollisions.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\FPSCollisionsEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <ClCompile Include="..\..\Instructions.cpp" />
+    <Filter Include="Config">
+      <UniqueIdentifier>{0812EFC5-DD04-400B-8BB4-0D255539C71F}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\FPSCollisions">
+      <UniqueIdentifier>{7E1E7027-1937-4F0B-B7B9-962EFA8DBA20}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\FPSCollisions\DamageActor.cpp">
+      <Filter>Source\FPSCollisions</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\FPSCollisions\DamageActor.h">
+      <Filter>Source\FPSCollisions</Filter>
+    </ClInclude>
+    <None Include="..\..\Source\FPSCollisions\FPSCollisions.Build.cs">
+      <Filter>Source\FPSCollisions</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\FPSCollisions\FPSCollisions.cpp">
+      <Filter>Source\FPSCollisions</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\FPSCollisions\FPSCollisions.h">
+      <Filter>Source\FPSCollisions</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\FPSCollisions\FPSCollisionsCharacter.cpp">
+      <Filter>Source\FPSCollisions</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\FPSCollisions\FPSCollisionsCharacter.h">
+      <Filter>Source\FPSCollisions</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\FPSCollisions\FPSCollisionsGameMode.cpp">
+      <Filter>Source\FPSCollisions</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\FPSCollisions\FPSCollisionsGameMode.h">
+      <Filter>Source\FPSCollisions</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\FPSCollisions\FPSCollisionsHUD.cpp">
+      <Filter>Source\FPSCollisions</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\FPSCollisions\FPSCollisionsHUD.h">
+      <Filter>Source\FPSCollisions</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\FPSCollisions\FPSCollisionsProjectile.cpp">
+      <Filter>Source\FPSCollisions</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\FPSCollisions\FPSCollisionsProjectile.h">
+      <Filter>Source\FPSCollisions</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\FPSCollisions\CollisionSphereComponent.h">
+      <Filter>Source\FPSCollisions</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\FPSCollisions\CollisionSphereComponent.cpp">
+      <Filter>Source\FPSCollisions</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

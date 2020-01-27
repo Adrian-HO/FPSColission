@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "CollisionSphereComponent.h"
+//#include "CollisionSphereComponent.h"
 #include "FPSCollisionsCharacter.generated.h"
 
 
@@ -78,11 +78,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CollisionTests)
 		ETestTraceType ETraceType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CollisionTests)
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CollisionTests)
 		FTraceParams TraceCollisionParams;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CollisionTests)
-		FCollisonParams SphereCollisionParams;
+		FCollisonParams SphereCollisionParams;*/
 
 	//Called when a property is edited in the blueprint editor or in the Instance editor
 	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& e) override;

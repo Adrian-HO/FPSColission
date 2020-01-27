@@ -7,7 +7,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/InputSettings.h"
-#include "CollisionSphereComponent.h"
+//#include "CollisionSphereComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
@@ -64,8 +64,8 @@ AFPSCollisionsCharacter::AFPSCollisionsCharacter()
 	// are set in the derived blueprint asset named MyCharacter to avoid direct content references in C++.
 
 	//Week 3 ADD:
-	CollisionSphere = CreateDefaultSubobject<UCollisionSphereComponent>("Collision Sphere");
-	CollisionSphere->SetupAttachment(RootComponent);
+	/*CollisionSphere = CreateDefaultSubobject<UCollisionSphereComponent>("Collision Sphere");
+	CollisionSphere->SetupAttachment(RootComponent);*/
 }
 
 
@@ -80,7 +80,7 @@ void AFPSCollisionsCharacter::BeginPlay()
 
 
 	//Week 3 ADD:
-	CollisionSphere->SetNewCollisionParams(SphereCollisionParams);
+//	CollisionSphere->SetNewCollisionParams(SphereCollisionParams);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -468,7 +468,7 @@ void AFPSCollisionsCharacter::SetupRay(FVector & StartTrace, FVector & Direction
 
 void AFPSCollisionsCharacter::EnableCollisionSphere(bool enable)
 {
-	if (!enable)
+	/*if (!enable)
 	{
 		CollisionSphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		CollisionSphere->SetHiddenInGame(true);
@@ -477,7 +477,7 @@ void AFPSCollisionsCharacter::EnableCollisionSphere(bool enable)
 	{
 		CollisionSphere->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		CollisionSphere->SetHiddenInGame(false);
-	}
+	}*/
 }
 
 //Week 3 ADD:
@@ -485,56 +485,56 @@ void AFPSCollisionsCharacter::EnableCollisionSphere(bool enable)
 
 void AFPSCollisionsCharacter::PostEditChangeProperty(FPropertyChangedEvent & e)
 {
-	FName PropertyName = (e.Property != NULL) ? e.Property->GetFName() : NAME_None;
+	//FName PropertyName = (e.Property != NULL) ? e.Property->GetFName() : NAME_None;
 
-	if (PropertyName == GET_MEMBER_NAME_CHECKED(FCollisonParams, CollisionEnabled))
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - SphereCollisionParams.CollisionEnabled ");
+	//if (PropertyName == GET_MEMBER_NAME_CHECKED(FCollisonParams, CollisionEnabled))
+	//{
+	//	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - SphereCollisionParams.CollisionEnabled ");
 
-	}
+	//}
 
-	if (PropertyName == GET_MEMBER_NAME_CHECKED(FCollisonParams, CollisionResponseNew))
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - SphereCollisionParams.CollisionResponseNew ");
+	//if (PropertyName == GET_MEMBER_NAME_CHECKED(FCollisonParams, CollisionResponseNew))
+	//{
+	//	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - SphereCollisionParams.CollisionResponseNew ");
 
-	}
+	//}
 
-	if (PropertyName == GET_MEMBER_NAME_CHECKED(FCollisonParams, CollisionChannel))
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - SphereCollisionParams.CollisionChannel ");
+	//if (PropertyName == GET_MEMBER_NAME_CHECKED(FCollisonParams, CollisionChannel))
+	//{
+	//	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - SphereCollisionParams.CollisionChannel ");
 
-	}
+	//}
 
-	if (PropertyName == GET_MEMBER_NAME_CHECKED(FCollisonParams, ProfileName))
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - SphereCollisionParams.ProfileName ");
+	//if (PropertyName == GET_MEMBER_NAME_CHECKED(FCollisonParams, ProfileName))
+	//{
+	//	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - SphereCollisionParams.ProfileName ");
 
-	}
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if (PropertyName == GET_MEMBER_NAME_CHECKED(FTraceParams, CollisionChannel))
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - FTraceParams.CollisionChannel ");
-	}
+	//}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//if (PropertyName == GET_MEMBER_NAME_CHECKED(FTraceParams, CollisionChannel))
+	//{
+	//	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - FTraceParams.CollisionChannel ");
+	//}
 
-	if (PropertyName == GET_MEMBER_NAME_CHECKED(FTraceParams, ObjectType))
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - FTraceParams.ObjectType ");
+	//if (PropertyName == GET_MEMBER_NAME_CHECKED(FTraceParams, ObjectType))
+	//{
+	//	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - FTraceParams.ObjectType ");
 
-	}
+	//}
 
-	if (PropertyName == GET_MEMBER_NAME_CHECKED(FTraceParams, TraceType))
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - FTraceParams.TraceType ");
+	//if (PropertyName == GET_MEMBER_NAME_CHECKED(FTraceParams, TraceType))
+	//{
+	//	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - FTraceParams.TraceType ");
 
-	}
+	//}
 
-	if (PropertyName == GET_MEMBER_NAME_CHECKED(FTraceParams, ProfileName))
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - FTraceParams.ProfileName ");
+	//if (PropertyName == GET_MEMBER_NAME_CHECKED(FTraceParams, ProfileName))
+	//{
+	//	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Property - FTraceParams.ProfileName ");
 
-	}
+	//}
 
-	CollisionSphere->SetNewCollisionParams(SphereCollisionParams);
+	//CollisionSphere->SetNewCollisionParams(SphereCollisionParams);
 
 
 }
@@ -545,32 +545,32 @@ void AFPSCollisionsCharacter::Tick(float DeltaTime)
 	
 	//Week 3 ADD:
 	AActor * HitActor = nullptr;
-	switch (ETraceType)
-	{
-	case ETestTraceType::TTT_CollisionChannel:
-	{
-		HitActor = GetPickableActor_LineTraceSingleByChannel(TraceCollisionParams.CollisionChannel);
-		break;
-	}
-	case ETestTraceType::TTT_ObjectType:
-	{
-		HitActor = GetPickableActor_LineTraceSingleByObjectType(TraceCollisionParams.ObjectType);
-		break;
-	}
-	case ETestTraceType::TTT_TraceType:
-	{
-		HitActor = GetPickableActor_LineTraceSingleByTraceType(TraceCollisionParams.TraceType);
-		break;
-	}
-	case ETestTraceType::TTT_ProfileName:
-	{
-		HitActor = GetPickableActor_LineTraceSingleByProfile(TraceCollisionParams.ProfileName);
-		break;
-	}
-	}
-	if (HitActor)
-		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Hit - " + HitActor->GetActorLabel());
-	//ADD Two more switch statements to test the other two flavors of Trace functions
+	//switch (ETraceType)
+	//{
+	//case ETestTraceType::TTT_CollisionChannel:
+	//{
+	//	HitActor = GetPickableActor_LineTraceSingleByChannel(TraceCollisionParams.CollisionChannel);
+	//	break;
+	//}
+	//case ETestTraceType::TTT_ObjectType:
+	//{
+	//	HitActor = GetPickableActor_LineTraceSingleByObjectType(TraceCollisionParams.ObjectType);
+	//	break;
+	//}
+	//case ETestTraceType::TTT_TraceType:
+	//{
+	//	HitActor = GetPickableActor_LineTraceSingleByTraceType(TraceCollisionParams.TraceType);
+	//	break;
+	//}
+	//case ETestTraceType::TTT_ProfileName:
+	//{
+	//	HitActor = GetPickableActor_LineTraceSingleByProfile(TraceCollisionParams.ProfileName);
+	//	break;
+	//}
+	//}
+	//if (HitActor)
+	//	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, "Hit - " + HitActor->GetActorLabel());
+	////ADD Two more switch statements to test the other two flavors of Trace functions
 
 }
 
