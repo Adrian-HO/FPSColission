@@ -1,3 +1,4 @@
+#include "Source\FPSCollisions\CollisionSphereComponent.h"
 
 Instructions:
 
@@ -79,6 +80,10 @@ In CollisionSphereComponent.cpp:
 UCollisionSphereComponent::UCollisionSphereComponent()
 {
 	bWantsInitializeComponent = true;
+}
+
+void UCollisionSphereComponent::OnRegister()
+{
 }
 
 void UCollisionSphereComponent::InitializeComponent()

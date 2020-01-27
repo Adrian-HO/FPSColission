@@ -19,6 +19,8 @@ void EmptyLinkFunctionForGeneratedCodeFPSCollisionsCharacter() {}
 	FPSCOLLISIONS_API UClass* Z_Construct_UClass_AFPSCollisionsCharacter();
 	ENGINE_API UClass* Z_Construct_UClass_ACharacter();
 	FPSCOLLISIONS_API UFunction* Z_Construct_UFunction_AFPSCollisionsCharacter_EnableCollisionSphere();
+	FPSCOLLISIONS_API UScriptStruct* Z_Construct_UScriptStruct_FCollisonParams();
+	FPSCOLLISIONS_API UScriptStruct* Z_Construct_UScriptStruct_FTraceParams();
 	ENGINE_API UClass* Z_Construct_UClass_UAnimMontage_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USoundBase_NoRegister();
 	COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
@@ -148,6 +150,14 @@ void EmptyLinkFunctionForGeneratedCodeFPSCollisionsCharacter() {}
 		static const UE4CodeGen_Private::FMetaDataPairParam Class_MetaDataParams[];
 #endif
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_SphereCollisionParams_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_SphereCollisionParams;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_TraceCollisionParams_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_TraceCollisionParams;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ETraceType_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FEnumPropertyParams NewProp_ETraceType;
@@ -210,6 +220,20 @@ void EmptyLinkFunctionForGeneratedCodeFPSCollisionsCharacter() {}
 		{ "ModuleRelativePath", "FPSCollisionsCharacter.h" },
 	};
 #endif
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AFPSCollisionsCharacter_Statics::NewProp_SphereCollisionParams_MetaData[] = {
+		{ "Category", "CollisionTests" },
+		{ "ModuleRelativePath", "FPSCollisionsCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UClass_AFPSCollisionsCharacter_Statics::NewProp_SphereCollisionParams = { "SphereCollisionParams", nullptr, (EPropertyFlags)0x0010000000000005, UE4CodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AFPSCollisionsCharacter, SphereCollisionParams), Z_Construct_UScriptStruct_FCollisonParams, METADATA_PARAMS(Z_Construct_UClass_AFPSCollisionsCharacter_Statics::NewProp_SphereCollisionParams_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AFPSCollisionsCharacter_Statics::NewProp_SphereCollisionParams_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AFPSCollisionsCharacter_Statics::NewProp_TraceCollisionParams_MetaData[] = {
+		{ "Category", "CollisionTests" },
+		{ "ModuleRelativePath", "FPSCollisionsCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UClass_AFPSCollisionsCharacter_Statics::NewProp_TraceCollisionParams = { "TraceCollisionParams", nullptr, (EPropertyFlags)0x0010000000000005, UE4CodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AFPSCollisionsCharacter, TraceCollisionParams), Z_Construct_UScriptStruct_FTraceParams, METADATA_PARAMS(Z_Construct_UClass_AFPSCollisionsCharacter_Statics::NewProp_TraceCollisionParams_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AFPSCollisionsCharacter_Statics::NewProp_TraceCollisionParams_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AFPSCollisionsCharacter_Statics::NewProp_ETraceType_MetaData[] = {
 		{ "Category", "CollisionTests" },
@@ -316,6 +340,8 @@ void EmptyLinkFunctionForGeneratedCodeFPSCollisionsCharacter() {}
 #endif
 	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AFPSCollisionsCharacter_Statics::NewProp_Mesh1P = { "Mesh1P", nullptr, (EPropertyFlags)0x00400000000b0009, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AFPSCollisionsCharacter, Mesh1P), Z_Construct_UClass_USkeletalMeshComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_AFPSCollisionsCharacter_Statics::NewProp_Mesh1P_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AFPSCollisionsCharacter_Statics::NewProp_Mesh1P_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_AFPSCollisionsCharacter_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AFPSCollisionsCharacter_Statics::NewProp_SphereCollisionParams,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AFPSCollisionsCharacter_Statics::NewProp_TraceCollisionParams,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AFPSCollisionsCharacter_Statics::NewProp_ETraceType,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AFPSCollisionsCharacter_Statics::NewProp_ETraceType_Underlying,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AFPSCollisionsCharacter_Statics::NewProp_FireAnimation,
@@ -356,7 +382,7 @@ void EmptyLinkFunctionForGeneratedCodeFPSCollisionsCharacter() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AFPSCollisionsCharacter, 139029905);
+	IMPLEMENT_CLASS(AFPSCollisionsCharacter, 1309862863);
 	template<> FPSCOLLISIONS_API UClass* StaticClass<AFPSCollisionsCharacter>()
 	{
 		return AFPSCollisionsCharacter::StaticClass();

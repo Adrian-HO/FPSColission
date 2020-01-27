@@ -21,8 +21,8 @@ void EmptyLinkFunctionForGeneratedCodeFPSCollisions_init() {}
 				nullptr,
 				0,
 				PKG_CompiledIn | 0x00000000,
-				0xA2C3135C,
-				0x9E243809,
+				0x23DDCA28,
+				0x36B6A3E1,
 				METADATA_PARAMS(nullptr, 0)
 			};
 			UE4CodeGen_Private::ConstructUPackage(ReturnPackage, PackageParams);

@@ -5,3 +5,4 @@ C:\Program Files\Epic Games\UE_4.24\Engine\Source\Runtime\Engine\Classes\Compone
 C:\Program Files\Epic Games\UE_4.24\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\ShapeComponent.generated.h
 C:\Program Files\Epic Games\UE_4.24\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\SphereComponent.generated.h
 C:\Users\ho000086\Desktop\FPSColission\FPSCollisions-student\Intermediate\Build\Win64\UE4Editor\Inc\FPSCollisions\CollisionSphereComponent.generated.h
+C:\Program Files\Epic Games\UE_4.24\Engine\Source\Runtime\Engine\Public\DrawDebugHelpers.h
